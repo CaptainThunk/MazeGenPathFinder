@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PathFinding
+namespace MazeGeneration
 {
     public class Maze
     {
@@ -28,7 +28,7 @@ namespace PathFinding
 
         private void InitialiseNodes()
         {
-            Int16 initialValue = (Int16)(NodeWall.North | NodeWall.East | NodeWall.South | NodeWall.West);
+            short initialValue = (short)(NodeWall.North | NodeWall.East | NodeWall.South | NodeWall.West);
             for (int i = 0; i < MazeWidth; i++)
             {
                 for (int h = 0; h < MazeHeight; h++)
@@ -79,6 +79,11 @@ namespace PathFinding
             return neighbours;
         }
 
+        public bool IsNodeVisited(NodePtr ptr)
+        {
+            return this[ptr] != 0x1111;
+        }
+
         public int MazeSize
         {
             get
@@ -94,17 +99,6 @@ namespace PathFinding
             }
         }
 
-        public short this[NodePtr ptr]
-        {
-            get
-            {
-                return this.Grid[ptr.x, ptr.y];
-            }
-            set
-            {
-                this.Grid[ptr.x, ptr.y] = value;
-            }
-        }
         public short this[uint x, uint y]
         {
             get
@@ -114,6 +108,17 @@ namespace PathFinding
             set
             {
                 this.Grid[x, y] = value;
+            }
+        }
+        public short this[NodePtr ptr]
+        {
+            get
+            {
+                return this[ptr.x, ptr.y];
+            }
+            set
+            {
+                this[ptr.x, ptr.y] = value;
             }
         }
     }

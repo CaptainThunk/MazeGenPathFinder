@@ -54,9 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PathFinding\PathFinding.csproj">
-      <Project>{b0c86dfc-522e-4fe0-9437-2849ed91a2d9}</Project>
-      <Name>PathFinding</Name>
+    <ProjectReference Include="..\MazeGeneration\MazeGeneration.csproj">
+      <Project>{88abfa07-d560-49d6-9a2a-d2f0c4236e4f}</Project>
+      <Name>MazeGeneration</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

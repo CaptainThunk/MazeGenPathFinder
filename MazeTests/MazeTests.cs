@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PathFinding;
+using MazeGeneration;
 using System.Linq;
 
 namespace MazeTests
@@ -113,6 +113,24 @@ namespace MazeTests
              */
             Assert.AreEqual(9, neighbours.Length); // Should still return 9 positions
             Assert.AreEqual(3, neighbours.Count(n => n.HasValue)); // Should only return 3 valid positions
+        }
+
+        [TestMethod]
+        public void NodeIsMarkedAsUnvisted()
+        {
+            Assert.IsFalse(maze.IsNodeVisited(new NodePtr(0, 0)));
+        }
+
+        [TestMethod]
+        public void NodeIsMarkedAsVisited()
+        {
+            // Visit node and remove some walls
+            NodePtr ptr = new NodePtr((uint)Math.Floor(mazeWidth / 2.0),
+                                      (uint)Math.Floor(mazeWidth / 2.0));
+            maze[ptr] ^= (short)(NodeWall.East | NodeWall.West);
+            Assert.IsTrue(maze.IsNodeVisited(ptr));
+            // Reset storage for future tests
+            maze[ptr] = 0x1111;
         }
     }
 }
