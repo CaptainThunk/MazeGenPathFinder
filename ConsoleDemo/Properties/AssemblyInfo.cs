@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PathFinding")]
+[assembly: AssemblyTitle("ConsoleDemo")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PathFinding")]
+[assembly: AssemblyProduct("ConsoleDemo")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("59cfebdf-463c-4c84-8846-7a6f0f30a60c")]
+[assembly: Guid("562b0492-34ef-4196-a6ad-886b0224df45")]
 
 // Version information for an assembly consists of the following four values:
 //
