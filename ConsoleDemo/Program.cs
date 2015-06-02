@@ -1,12 +1,14 @@
 ﻿using MazeGeneration;
+using MazeGeneration.Generation;
 using System;
+using System.Threading;
 
 namespace ConsoleDemo
 {
     class Program
     {
         static Maze maze;
-        static int mazeWidth = 20, mazeHeight = 20;
+        static int mazeWidth = 50, mazeHeight = 50;
         static int offset = 3;
         static char[,] display;
         static Random r;
@@ -14,66 +16,29 @@ namespace ConsoleDemo
 
         static void Main(string[] args)
         {
-            r = new Random();
+            Console.CursorVisible = false;
+            r = new Random((int)DateTime.Now.Ticks);
             maze = new Maze(mazeWidth, mazeHeight);
             directions = Enum.GetValues(typeof(NodeWall));
             display = new char[mazeWidth * offset, mazeHeight * offset];
 
+            IMazeGenerator generator = new RecursiveBacktracker(r);
+
             while (true)
             {
+                maze.InitialiseNodes();
+                generator.Generate(maze);
                 for (int h = 0; h < mazeHeight; h++)
                 {
                     for (int w = 0; w < mazeWidth; w++)
                     {
-                        WriteNodeChar(w, h, maze[(uint)w, (uint)h]);
+                        WriteNodeChar(w, h, maze[(uint)w, (uint)h].Walls);
                     }
                 }
 
-                RandomUpdate();
                 Console.Clear();
                 DrawDisplay();
                 Console.ReadKey();
-            }
-        }
-
-        private static void RandomUpdate()
-        {
-            int x = r.Next(0, mazeWidth - 1);
-            int y = r.Next(0, mazeHeight - 1);
-            NodeWall cutThroughWall = (NodeWall)directions.GetValue(r.Next(directions.Length));
-
-            maze[(uint)x, (uint)y] ^= (short)cutThroughWall;
-
-            var neighbours = maze.GetNeighbours((uint)x, (uint)y);
-
-            switch (cutThroughWall)
-            {
-                case NodeWall.North:
-                    if (neighbours[1].HasValue)
-                    {
-                        maze[neighbours[1].Value] ^= (short)NodeWall.South;
-                    }
-                    break;
-                case NodeWall.East:
-                    if (neighbours[5].HasValue)
-                    {
-                        maze[neighbours[5].Value] ^= (short)NodeWall.West;
-                    }
-                    break;
-                case NodeWall.South:
-                    if (neighbours[7].HasValue)
-                    {
-                        maze[neighbours[7].Value] ^= (short)NodeWall.North;
-                    }
-                    break;
-                case NodeWall.West:
-                    if (neighbours[3].HasValue)
-                    {
-                        maze[neighbours[3].Value] ^= (short)NodeWall.East;
-                    }
-                    break;
-                default:
-                    break;
             }
         }
 
@@ -89,7 +54,7 @@ namespace ConsoleDemo
             }
         }
 
-        private static void WriteNodeChar(int x, int y, short node)
+        private static void WriteNodeChar(int x, int y, ushort node)
         {
             int xOffset = x * offset;
             int yOffset = y * offset;
@@ -97,6 +62,7 @@ namespace ConsoleDemo
             {
                 for (int w = xOffset; w < xOffset + offset; w++)
                 {
+                    // Ugly drawing code
                     if (w == xOffset + 1 && h == yOffset + 1)
                     {
                         display[w, h] = ' ';

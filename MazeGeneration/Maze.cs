@@ -7,7 +7,7 @@ namespace MazeGeneration
 {
     public class Maze
     {
-        private short[,] _storage;
+        private Node[,] _storage;
         public int MazeHeight;
         public int MazeWidth;
 
@@ -22,18 +22,17 @@ namespace MazeGeneration
         {
             MazeHeight = mazeHeight;
             MazeWidth = mazeWidth;
-            this._storage = new short[mazeWidth, mazeHeight];
+            this._storage = new Node[mazeWidth, mazeHeight];
             InitialiseNodes();
         }
 
-        private void InitialiseNodes()
+        public void InitialiseNodes()
         {
-            short initialValue = (short)(NodeWall.North | NodeWall.East | NodeWall.South | NodeWall.West);
             for (int i = 0; i < MazeWidth; i++)
             {
                 for (int h = 0; h < MazeHeight; h++)
                 {
-                    _storage[i, h] = initialValue;
+                    _storage[i, h] = new Node();
                 }
             }
         }
@@ -81,7 +80,7 @@ namespace MazeGeneration
 
         public bool IsNodeVisited(NodePtr ptr)
         {
-            return this[ptr] != 0x1111;
+            return this[ptr].Visited;
         }
 
         public int MazeSize
@@ -91,7 +90,7 @@ namespace MazeGeneration
                 return _storage.Length;
             }
         }
-        public short[,] Grid
+        public Node[,] Grid
         {
             get
             {
@@ -99,7 +98,7 @@ namespace MazeGeneration
             }
         }
 
-        public short this[uint x, uint y]
+        public Node this[uint x, uint y]
         {
             get
             {
@@ -110,7 +109,7 @@ namespace MazeGeneration
                 this.Grid[x, y] = value;
             }
         }
-        public short this[NodePtr ptr]
+        public Node this[NodePtr ptr]
         {
             get
             {

@@ -11,7 +11,14 @@ namespace MazeGeneration
         North = 0x0001,
         East = 0x0010,
         South = 0x0100,
-        West = 0x1000
+        West = 0x1000,
+        All = 0x1111
+    }
+
+    public class Node
+    {
+        public ushort Walls = (ushort)NodeWall.All;
+        public bool Visited = false;
     }
 
     public struct NodePtr

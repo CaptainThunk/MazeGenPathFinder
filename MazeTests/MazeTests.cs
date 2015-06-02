@@ -34,9 +34,9 @@ namespace MazeTests
         [TestMethod]
         public void MazeHasBeenInitialised()
         {
-            foreach (int node in maze.Grid)
+            foreach (var node in maze.Grid)
             {
-                Assert.AreEqual(0x1111, node);
+                Assert.AreEqual(0x1111, node.Walls);
             }
         }
 
@@ -57,7 +57,7 @@ namespace MazeTests
                  */
                 if (node != null)
                 {
-                    Assert.IsInstanceOfType(maze[(NodePtr)node], typeof(short));
+                    Assert.IsInstanceOfType(maze[(NodePtr)node], typeof(Node));
                 }
             }
             long previousNodeCoord = 0;
@@ -71,7 +71,6 @@ namespace MazeTests
                     if (previousNodeCoord > 0)
                     {
                         long nodeDiff = nodeCoord - previousNodeCoord;
-                        // TODO: Some assertion
                         // Diff needs to be within 1+null count, Width-2+null count
                         Assert.IsTrue(nodeDiff == 1 + nullEntries || nodeDiff == mazeWidth - 2 + nullEntries);
                     }
@@ -127,10 +126,14 @@ namespace MazeTests
             // Visit node and remove some walls
             NodePtr ptr = new NodePtr((uint)Math.Floor(mazeWidth / 2.0),
                                       (uint)Math.Floor(mazeWidth / 2.0));
-            maze[ptr] ^= (short)(NodeWall.East | NodeWall.West);
+            Node current = maze[ptr];
+            Assert.IsFalse(maze.IsNodeVisited(ptr));
+            current.Visited = true;
+            maze[ptr] = current;
             Assert.IsTrue(maze.IsNodeVisited(ptr));
             // Reset storage for future tests
-            maze[ptr] = 0x1111;
+            current.Walls ^= (ushort)NodeWall.All;
+            maze[ptr] = current;
         }
     }
 }
