@@ -8,7 +8,7 @@ namespace ConsoleDemo
     class Program
     {
         static Maze maze;
-        static int mazeWidth = 50, mazeHeight = 50;
+        static int mazeWidth = 25, mazeHeight = 20;
         static int offset = 3;
         static char[,] display;
         static Random r;

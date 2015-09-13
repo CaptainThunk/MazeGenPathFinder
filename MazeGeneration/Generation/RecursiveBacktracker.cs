@@ -36,11 +36,6 @@ namespace MazeGeneration.Generation
                                          neighbours[7]
                                      };
 
-            var randomDirection = r.Next(4);
-            var temp = cardinalNeighbours[randomDirection];
-            cardinalNeighbours[randomDirection] = cardinalNeighbours[0];
-            cardinalNeighbours[0] = temp;
-
             IEnumerable<NodePtr?> shuffled = cardinalNeighbours.OrderBy(n => r.Next()).ToArray();
 
             foreach (var node in shuffled.Where(n => n.HasValue).Select(n => (NodePtr)n))

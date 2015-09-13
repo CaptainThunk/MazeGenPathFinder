@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace MazeGeneration
 {
+    public class Node
+    {
+        public ushort Walls = (ushort)NodeWall.All;
+        public bool Visited = false;
+    }
+    
     public enum NodeWall : ushort
     {
         North = 0x0001,
@@ -13,12 +19,6 @@ namespace MazeGeneration
         South = 0x0100,
         West = 0x1000,
         All = 0x1111
-    }
-
-    public class Node
-    {
-        public ushort Walls = (ushort)NodeWall.All;
-        public bool Visited = false;
     }
 
     public struct NodePtr
