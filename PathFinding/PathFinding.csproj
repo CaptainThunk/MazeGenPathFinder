@@ -41,6 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solvers\ISolver.cs" />
+    <Compile Include="Solvers\RecursiveSolver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MazeGeneration\MazeGeneration.csproj">
+      <Project>{88abfa07-d560-49d6-9a2a-d2f0c4236e4f}</Project>
+      <Name>MazeGeneration</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

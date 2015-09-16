@@ -8,8 +8,8 @@ namespace MazeGeneration
     public class Maze
     {
         private Node[,] _storage;
-        public int MazeHeight;
-        public int MazeWidth;
+        public int Height;
+        public int Width;
 
         public Maze() { }
 
@@ -20,17 +20,17 @@ namespace MazeGeneration
 
         public void Create(int mazeWidth, int mazeHeight)
         {
-            MazeHeight = mazeHeight;
-            MazeWidth = mazeWidth;
+            Height = mazeHeight;
+            Width = mazeWidth;
             this._storage = new Node[mazeWidth, mazeHeight];
             InitialiseNodes();
         }
 
         public void InitialiseNodes()
         {
-            for (int i = 0; i < MazeWidth; i++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int h = 0; h < MazeHeight; h++)
+                for (int h = 0; h < Height; h++)
                 {
                     _storage[i, h] = new Node();
                 }
@@ -50,7 +50,7 @@ namespace MazeGeneration
             {
                 for (int i = ((int)x - 1); i <= x + 1; i++) // Row
                 {
-                    if ((arrayPosition == 4) || (i < 0 || i >= MazeWidth || h < 0 || h >= MazeHeight))
+                    if ((arrayPosition == 4) || (i < 0 || i >= Width || h < 0 || h >= Height))
                     {
                         /*
                          * Return null for this position if it lands outside of
