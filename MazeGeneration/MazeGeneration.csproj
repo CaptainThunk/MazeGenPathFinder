@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Generation\IMazeGenerator.cs" />
+    <Compile Include="Generation\PrimsAlgorithm.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

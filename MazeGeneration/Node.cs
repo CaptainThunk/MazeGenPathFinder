@@ -10,6 +10,11 @@ namespace MazeGeneration
     {
         public ushort Walls = (ushort)NodeWall.All;
         public bool Visited = false;
+
+        public bool Equals(Node node)
+        {
+            return (this.Walls == node.Walls);
+        }
     }
     
     public enum NodeWall : ushort
@@ -29,6 +34,21 @@ namespace MazeGeneration
         {
             x = _x;
             y = _y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is NodePtr))
+            {
+                return false;
+            }
+            NodePtr otherPtr = (NodePtr)obj;
+            return this.x == otherPtr.x && this.y == otherPtr.y;
+        }
+
+        public override int GetHashCode()
+        {
+            return x.GetHashCode() ^ y.GetHashCode();
         }
     }
 }

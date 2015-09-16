@@ -43,32 +43,7 @@ namespace MazeGeneration.Generation
                 Node nextNode = maze[node];
                 if (!nextNode.Visited)
                 {
-                    int dx = (int)node.x - (int)ptr.x;
-                    int dy = (int)node.y - (int)ptr.y;
-
-                    // Ugly wall breaking code
-                    if (dx == 0 && dy == -1)
-                    {
-                        currentNode.Walls ^= (ushort)NodeWall.North;
-                        nextNode.Walls ^= (ushort)NodeWall.South;
-                    }
-                    else if (dx == 1 && dy == 0)
-                    {
-                        currentNode.Walls ^= (ushort)NodeWall.East;
-                        nextNode.Walls ^= (ushort)NodeWall.West;
-                    }
-                    else if (dx == 0 && dy == 1)
-                    {
-                        currentNode.Walls ^= (ushort)NodeWall.South;
-                        nextNode.Walls ^= (ushort)NodeWall.North;
-                    }
-                    else if (dx == -1 && dy == 0)
-                    {
-                        currentNode.Walls ^= (ushort)NodeWall.West;
-                        nextNode.Walls ^= (ushort)NodeWall.East;
-                    }
-                    else { continue; } // Shouldn't ever hit
-
+                    maze.Tunnel(node, ptr);
                     CarvePassage(node, maze);
                 }
             }

@@ -120,5 +120,38 @@ namespace MazeGeneration
                 this[ptr.x, ptr.y] = value;
             }
         }
+
+        public bool Tunnel(NodePtr from, NodePtr to)
+        {
+            Node fromNode = this[from];
+            Node toNode = this[to];
+            int dx = (int)to.x - (int)from.x;
+            int dy = (int)to.y - (int)from.y;
+
+            // Ugly wall breaking code
+            if (dx == 0 && dy == -1)
+            {
+                fromNode.Walls ^= (ushort)NodeWall.North;
+                toNode.Walls ^= (ushort)NodeWall.South;
+            }
+            else if (dx == 1 && dy == 0)
+            {
+                fromNode.Walls ^= (ushort)NodeWall.East;
+                toNode.Walls ^= (ushort)NodeWall.West;
+            }
+            else if (dx == 0 && dy == 1)
+            {
+                fromNode.Walls ^= (ushort)NodeWall.South;
+                toNode.Walls ^= (ushort)NodeWall.North;
+            }
+            else if (dx == -1 && dy == 0)
+            {
+                fromNode.Walls ^= (ushort)NodeWall.West;
+                toNode.Walls ^= (ushort)NodeWall.East;
+            } 
+            else { return false; } // Should never happen
+
+            return true;
+        }
     }
 }
