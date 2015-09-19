@@ -12,14 +12,12 @@ namespace ConsoleDemo
         static int offset = 3;
         static char[,] display;
         static Random r;
-        static Array directions;
 
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
             r = new Random((int)DateTime.Now.Ticks);
             maze = new Maze(mazeWidth, mazeHeight);
-            directions = Enum.GetValues(typeof(NodeWall));
             display = new char[mazeWidth * offset, mazeHeight * offset];
 
             Console.WriteLine("Choose a type of maze to generate:");

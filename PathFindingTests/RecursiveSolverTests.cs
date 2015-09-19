@@ -39,7 +39,20 @@ namespace PathFindingTests
         [TestMethod]
         public void RecursiveSolverSolvesForGivenMaze()
         {
-            solver.Solve(startPoint, endPoint);
+            var actualSolution = new NodePtr[]
+            {
+                new NodePtr(1, 1),
+                new NodePtr(4, 2)
+            };
+
+            var solution = solver.Solve(startPoint, endPoint);
+
+            //Assert.AreEqual(actualSolution.Length, solution.Count);
+
+            foreach (var node in actualSolution)
+            {
+                if (!solution.Contains(node)) Assert.Fail();
+            }
         }
     }
 }
