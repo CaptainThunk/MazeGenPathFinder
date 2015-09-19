@@ -67,9 +67,12 @@ namespace PathFinding.Solvers
             if (hasVisted[x, y]) return false;
             hasVisted[x, y] = true;
 
+            NodePtr currentPoint = new NodePtr(x, y);
+
             if (x != 0)
             {
-                if (Solve(x - 1, y))
+                NodePtr nextPoint = new NodePtr(x - 1, y);
+                if (maze.IsPassable(currentPoint, nextPoint) && Solve(x - 1, y))
                 {
                     path[x, y] = true;
                     return true;
@@ -77,7 +80,8 @@ namespace PathFinding.Solvers
             }
             if (x != maze.Width - 1)
             {
-                if (Solve(x + 1, y))
+                NodePtr nextPoint = new NodePtr(x + 1, y);
+                if (maze.IsPassable(currentPoint, nextPoint) && Solve(x + 1, y))
                 {
                     path[x, y] = true;
                     return true;
@@ -85,7 +89,8 @@ namespace PathFinding.Solvers
             }
             if (y != 0)
             {
-                if (Solve(x, y - 1))
+                NodePtr nextPoint = new NodePtr(x, y - 1);
+                if (maze.IsPassable(currentPoint, nextPoint) && Solve(x, y - 1))
                 {
                     path[x, y] = true;
                     return true;
@@ -93,7 +98,8 @@ namespace PathFinding.Solvers
             }
             if (y != maze.Height - 1)
             {
-                if (Solve(x, y + 1))
+                NodePtr nextPoint = new NodePtr(x, y + 1);
+                if (maze.IsPassable(currentPoint, nextPoint) && Solve(x, y + 1))
                 {
                     path[x, y] = true;
                     return true;

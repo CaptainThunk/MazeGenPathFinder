@@ -78,6 +78,17 @@ namespace MazeGeneration
             return neighbours;
         }
 
+        public bool IsPointValid(NodePtr startPoint)
+        {
+            if (startPoint.x < 0 || startPoint.x > this.Width - 1 || startPoint.y < 0 || startPoint.y > this.Height - 1) return false;
+            return true;
+        }
+
+        public bool IsPassable(NodePtr startPoint, NodePtr endPoint)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsNodeVisited(NodePtr ptr)
         {
             return this[ptr].Visited;

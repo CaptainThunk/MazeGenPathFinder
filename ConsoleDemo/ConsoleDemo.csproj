@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ConsoleDemo</RootNamespace>
     <AssemblyName>ConsoleDemo</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,6 +52,10 @@
     <ProjectReference Include="..\MazeGeneration\MazeGeneration.csproj">
       <Project>{88abfa07-d560-49d6-9a2a-d2f0c4236e4f}</Project>
       <Name>MazeGeneration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PathFinding\PathFinding.csproj">
+      <Project>{7ebf63e6-1de9-4c03-a13e-6b1a4eda024d}</Project>
+      <Name>PathFinding</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
