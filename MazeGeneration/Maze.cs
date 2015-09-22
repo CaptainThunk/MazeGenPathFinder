@@ -199,5 +199,10 @@ namespace MazeGeneration
 
             return true;
         }
+
+        public double DistanceBetween(NodePtr a, NodePtr b)
+        {
+            return Math.Sqrt((a.x - b.x) ^ 2 + (a.y - b.y) ^ 2);
+        }
     }
 }

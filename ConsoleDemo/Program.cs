@@ -44,6 +44,7 @@ namespace ConsoleDemo
             Console.WriteLine("Choose a type of solver, if any:\n");
             Console.WriteLine("0: No solver");
             Console.WriteLine("1: Recursive Solver");
+            Console.Write("2: A* Solver");
             var solverOption = Console.ReadKey().Key;
 
             ISolver solver;
@@ -52,6 +53,9 @@ namespace ConsoleDemo
             {
                 case ConsoleKey.D1:
                     solver = new RecursiveSolver(maze);
+                    break;
+                case ConsoleKey.D2:
+                    solver = new AStar(maze);
                     break;
                 default:
                     solver = null;

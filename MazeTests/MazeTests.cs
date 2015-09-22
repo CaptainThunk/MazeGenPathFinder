@@ -165,5 +165,16 @@ namespace MazeTests
 
             Assert.IsFalse(isPassable);
         }
+
+        [TestMethod]
+        public void DistanceBetweenGivesExpectedResult()
+        {
+            NodePtr a = new NodePtr(2, 2);
+            NodePtr b = new NodePtr(4, 5);
+
+            var distance = maze.DistanceBetween(a, b);
+
+            Assert.IsTrue(distance - 3.60555 < 0.0001);
+        }
     }
 }
