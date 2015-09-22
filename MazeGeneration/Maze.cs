@@ -8,8 +8,8 @@ namespace MazeGeneration
     public class Maze
     {
         private Node[,] _storage;
-        public int MazeHeight;
-        public int MazeWidth;
+        public int Height;
+        public int Width;
 
         public Maze() { }
 
@@ -20,17 +20,17 @@ namespace MazeGeneration
 
         public void Create(int mazeWidth, int mazeHeight)
         {
-            MazeHeight = mazeHeight;
-            MazeWidth = mazeWidth;
+            Height = mazeHeight;
+            Width = mazeWidth;
             this._storage = new Node[mazeWidth, mazeHeight];
             InitialiseNodes();
         }
 
         public void InitialiseNodes()
         {
-            for (int i = 0; i < MazeWidth; i++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int h = 0; h < MazeHeight; h++)
+                for (int h = 0; h < Height; h++)
                 {
                     _storage[i, h] = new Node();
                 }
@@ -50,7 +50,7 @@ namespace MazeGeneration
             {
                 for (int i = ((int)x - 1); i <= x + 1; i++) // Row
                 {
-                    if ((arrayPosition == 4) || (i < 0 || i >= MazeWidth || h < 0 || h >= MazeHeight))
+                    if ((arrayPosition == 4) || (i < 0 || i >= Width || h < 0 || h >= Height))
                     {
                         /*
                          * Return null for this position if it lands outside of
@@ -76,6 +76,52 @@ namespace MazeGeneration
             }
 
             return neighbours;
+        }
+
+        public bool IsPointValid(NodePtr startPoint)
+        {
+            if (startPoint.x < 0 || startPoint.x > this.Width - 1 || startPoint.y < 0 || startPoint.y > this.Height - 1) return false;
+            return true;
+        }
+
+        public bool IsPassable(NodePtr startPoint, NodePtr endPoint)
+        {
+            var distance = ((int)startPoint.x - endPoint.x) + ((int)startPoint.y - endPoint.y);
+            if (Math.Abs(distance) != 1) return false; // i.e. if not cardinal neighbour, then false
+
+            var start = (NodeWall)this[startPoint].Walls;
+            var end = (NodeWall)this[endPoint].Walls;
+
+            if ((int)startPoint.y - endPoint.y == -1) // South
+            {
+                if ((start & NodeWall.South) != NodeWall.South && (end & NodeWall.North) != NodeWall.North)
+                {
+                    return true;
+                }
+            }
+            if ((int)startPoint.y - endPoint.y == 1) // North
+            {
+                if ((start & NodeWall.North) != NodeWall.North && (end & NodeWall.South) != NodeWall.South)
+                {
+                    return true;
+                }
+            }
+            if ((int)startPoint.x - endPoint.x == -1) // East
+            {
+                if ((start & NodeWall.East) != NodeWall.East && (end & NodeWall.West) != NodeWall.West)
+                {
+                    return true;
+                }
+            }
+            if ((int)startPoint.x - endPoint.x == 1) // West
+            {
+                if ((start & NodeWall.West) != NodeWall.West && (end & NodeWall.East) != NodeWall.East)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool IsNodeVisited(NodePtr ptr)
@@ -148,8 +194,8 @@ namespace MazeGeneration
             {
                 fromNode.Walls ^= (ushort)NodeWall.West;
                 toNode.Walls ^= (ushort)NodeWall.East;
-            } 
-            else { return false; } // Should never happen
+            }
+            else { throw new ArgumentException(); } // Should never happen
 
             return true;
         }

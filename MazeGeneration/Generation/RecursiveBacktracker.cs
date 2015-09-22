@@ -17,8 +17,8 @@ namespace MazeGeneration.Generation
 
         public void Generate(Maze maze)
         {
-            uint x = (uint)r.Next(maze.MazeWidth);
-            uint y = (uint)r.Next(maze.MazeHeight);
+            uint x = (uint)r.Next(maze.Width);
+            uint y = (uint)r.Next(maze.Height);
             NodePtr ptr = new NodePtr(x, y);
             CarvePassage(ptr, maze);
         }

@@ -18,8 +18,8 @@ namespace MazeGeneration.Generation
         public void Generate(Maze maze)
         {
             // Starting position
-            uint x = (uint)r.Next(maze.MazeWidth);
-            uint y = (uint)r.Next(maze.MazeHeight);
+            uint x = (uint)r.Next(maze.Width);
+            uint y = (uint)r.Next(maze.Height);
             NodePtr startingPoint = new NodePtr(x, y);
             maze[startingPoint].Visited = true;
 

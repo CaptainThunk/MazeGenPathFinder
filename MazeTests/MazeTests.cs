@@ -135,5 +135,35 @@ namespace MazeTests
             current.Walls ^= (ushort)NodeWall.All;
             maze[ptr] = current;
         }
+
+        [TestMethod]
+        public void IsPassableSucceedsBetweenPassableNodes()
+        {
+            NodePtr start = new NodePtr(1, 1);
+            NodePtr end = new NodePtr(1, 2);
+
+            var startNode = maze[start];
+            startNode.Walls ^= (ushort)NodeWall.South;
+            maze[start] = startNode;
+
+            var endNode = maze[end];
+            endNode.Walls ^= (ushort)NodeWall.North;
+            maze[end] = endNode;
+
+            var isPassable = maze.IsPassable(start, end);
+
+            Assert.IsTrue(isPassable);
+        }
+
+        [TestMethod]
+        public void IsPassableFailsBetweenUnpassableNodes()
+        {
+            NodePtr start = new NodePtr(1, 1);
+            NodePtr end = new NodePtr(1, 2);
+
+            var isPassable = maze.IsPassable(start, end);
+
+            Assert.IsFalse(isPassable);
+        }
     }
 }
