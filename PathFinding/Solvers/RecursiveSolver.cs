@@ -21,6 +21,11 @@ namespace PathFinding.Solvers
             path = new bool[maze.Width, maze.Height];
 
             // Initialise
+            InitSolver(maze);
+        }
+
+        private void InitSolver(Maze maze)
+        {
             for (int y = 0; y < maze.Height; y++)
             {
                 for (int x = 0; x < maze.Width; x++)
@@ -33,6 +38,7 @@ namespace PathFinding.Solvers
 
         public ISet<NodePtr> Solve(NodePtr startPoint, NodePtr endPoint)
         {
+            InitSolver(this.maze);
             start = startPoint;
             end = endPoint;
 

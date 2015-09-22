@@ -10,7 +10,7 @@ namespace ConsoleDemo
     class Program
     {
         static Maze maze;
-        static int mazeWidth = 5, mazeHeight = 5;
+        static int mazeWidth = 25, mazeHeight = 10;
         static int offset = 3;
         static char[,] display;
         static Random r;
@@ -18,8 +18,7 @@ namespace ConsoleDemo
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-            //r = new Random((int)DateTime.Now.Ticks);
-            r = new Random(1001);
+            r = new Random((int)DateTime.Now.Ticks);
             maze = new Maze(mazeWidth, mazeHeight);
             display = new char[mazeWidth * offset, mazeHeight * offset];
 
@@ -88,12 +87,20 @@ namespace ConsoleDemo
                         if (!startPointIsValid) startPoint = new NodePtr((uint)r.Next(maze.Width), (uint)r.Next(maze.Height));
                         if (!endPointIsValid) endPoint = new NodePtr((uint)r.Next(maze.Width), (uint)r.Next(maze.Height));
                     }
+
                     var solution = solver.Solve(startPoint, endPoint);
 
-                    WriteSolution(startPoint, endPoint, solution);
-                    Console.WriteLine(string.Format("Solving for: Start - {0}x, {1}y; End - {2}x, {3}y",
-                                                    startPoint.x, startPoint.y,
-                                                    endPoint.x, endPoint.y));
+                    if (solution != null)
+                    {
+                        WriteSolution(startPoint, endPoint, solution);
+                        Console.WriteLine(string.Format("Solving for: Start - {0}x, {1}y; End - {2}x, {3}y",
+                                                        startPoint.x, startPoint.y,
+                                                        endPoint.x, endPoint.y));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Cannot find a Solution.....");
+                    }
                 }
 
                 DrawDisplay();

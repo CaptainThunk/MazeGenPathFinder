@@ -86,7 +86,42 @@ namespace MazeGeneration
 
         public bool IsPassable(NodePtr startPoint, NodePtr endPoint)
         {
-            throw new NotImplementedException();
+            var distance = ((int)startPoint.x - endPoint.x) + ((int)startPoint.y - endPoint.y);
+            if (Math.Abs(distance) != 1) return false; // i.e. if not cardinal neighbour, then false
+
+            var start = (NodeWall)this[startPoint].Walls;
+            var end = (NodeWall)this[endPoint].Walls;
+
+            if ((int)startPoint.y - endPoint.y == -1) // South
+            {
+                if ((start & NodeWall.South) != NodeWall.South && (end & NodeWall.North) != NodeWall.North)
+                {
+                    return true;
+                }
+            }
+            if ((int)startPoint.y - endPoint.y == 1) // North
+            {
+                if ((start & NodeWall.North) != NodeWall.North && (end & NodeWall.South) != NodeWall.South)
+                {
+                    return true;
+                }
+            }
+            if ((int)startPoint.x - endPoint.x == -1) // East
+            {
+                if ((start & NodeWall.East) != NodeWall.East && (end & NodeWall.West) != NodeWall.West)
+                {
+                    return true;
+                }
+            }
+            if ((int)startPoint.x - endPoint.x == 1) // West
+            {
+                if ((start & NodeWall.West) != NodeWall.West && (end & NodeWall.East) != NodeWall.East)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public bool IsNodeVisited(NodePtr ptr)
@@ -159,8 +194,8 @@ namespace MazeGeneration
             {
                 fromNode.Walls ^= (ushort)NodeWall.West;
                 toNode.Walls ^= (ushort)NodeWall.East;
-            } 
-            else { return false; } // Should never happen
+            }
+            else { throw new ArgumentException(); } // Should never happen
 
             return true;
         }
