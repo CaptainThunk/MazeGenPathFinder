@@ -53,6 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AStarTests.cs" />
+    <Compile Include="HeapTests.cs" />
     <Compile Include="RecursiveSolverTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

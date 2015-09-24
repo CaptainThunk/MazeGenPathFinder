@@ -22,7 +22,7 @@ namespace PathFindingTests
         }
 
         [TestMethod]
-        public void MyTestMethod()
+        public void AStarSolverIsConstructed()
         {
             Assert.IsInstanceOfType(solver, typeof(AStar));
         }

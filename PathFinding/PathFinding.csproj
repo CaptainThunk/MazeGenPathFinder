@@ -40,14 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Heap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solvers\AStar.cs" />
     <Compile Include="Solvers\ISolver.cs" />
     <Compile Include="Solvers\RecursiveSolver.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MazeGeneration\MazeGeneration.csproj">
       <Project>{88abfa07-d560-49d6-9a2a-d2f0c4236e4f}</Project>
