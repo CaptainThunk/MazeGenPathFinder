@@ -22,6 +22,12 @@ namespace PathFindingTests
         }
 
         [TestMethod]
+        public void HeapInsertsObjectInCorrectLocation()
+        {
+
+        }
+
+        [TestMethod]
         public void MaxHeapifyCorrectsSingleViolationOfHeapProperty()
         {
             heap.MaxHeapify(0);
