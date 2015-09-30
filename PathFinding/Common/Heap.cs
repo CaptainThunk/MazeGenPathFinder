@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PathFinding.Common
 {
-    public class Heap<T> where T : IComparable<T>
+    public class MaxHeap<T> where T : IComparable<T>
     {
         private T[] _storage;
         private int _usedStorage = 0;
@@ -15,7 +15,7 @@ namespace PathFinding.Common
         /// Initialises new, empty Heap.
         /// </summary>
         /// <param name="size">Size of Heap.</param>
-        public Heap(uint size)
+        public MaxHeap(uint size)
         {
             _storage = new T[size];
         }
@@ -24,26 +24,36 @@ namespace PathFinding.Common
         /// Initialises a heap from an existing array.
         /// </summary>
         /// <param name="data">Array of T that gets copied in to new Heap.</param>
-        public Heap(T[] data)
+        public MaxHeap(T[] data)
         {
             _storage = new T[data.Count()];
             data.CopyTo(_storage, 0);
             _usedStorage = data.Length;
         }
 
+        public T[] Data
+        {
+            get { return _storage; }
+        }
+
+        public int Size
+        {
+            get { return _usedStorage; }
+        }
+
         public int Parent(int index)
         {
-            return (int)Math.Floor(index / 2.0);
+            return (int)Math.Floor((index - 1) / 2.0);
         }
 
         public int LeftChild(int index)
         {
-            return index * 2;
+            return index * 2 + 1;
         }
 
         public int RightChild(int index)
         {
-            return (index * 2) + 1;
+            return (index * 2) + 2;
         }
 
         public void Insert(T obj)
@@ -53,17 +63,21 @@ namespace PathFinding.Common
                 Array.Resize(ref _storage, _storage.Length * 2);
             }
 
-            int hole = _usedStorage++;
-            for ( ; hole > 1 && obj.CompareTo(_storage[hole/2]) < 0 ; hole /= 2)
-            {
-                _storage[hole] = _storage[hole / 2];
-            }
-            _storage[hole] = obj;
+            _usedStorage++;
+            _storage[_usedStorage - 1] = default(T);
+            IncreaseKey(_usedStorage - 1, obj);
         }
 
+        /// <summary>
+        /// Used to build a Heap that satisfies the Max-Heap
+        /// property.
+        /// </summary>
         public void BuildMaxHeap()
         {
-            throw new NotImplementedException();
+            for (int i = (int)Math.Floor(_usedStorage / 2.0) - 1; i >= 0; i--)
+            {
+                MaxHeapify(i);
+            }
         }
 
         public void MaxHeapify(int index)
@@ -72,7 +86,7 @@ namespace PathFinding.Common
             var rightChild = RightChild(index);
             int largest;
 
-            if (2*index < _usedStorage && _storage[index].CompareTo(_storage[leftChild]) < 0)
+            if (2*index+1 < _usedStorage && _storage[index].CompareTo(_storage[leftChild]) < 0)
             {
                 largest = leftChild;
             } else
@@ -80,7 +94,7 @@ namespace PathFinding.Common
                 largest = index;
             }
 
-            if (2*index+1 < _usedStorage && _storage[largest].CompareTo(_storage[rightChild]) < 0)
+            if (2*index+2 < _usedStorage && _storage[largest].CompareTo(_storage[rightChild]) < 0)
             {
                 largest = rightChild;
             }
@@ -89,6 +103,41 @@ namespace PathFinding.Common
             {
                 ExchangeNodes(index, largest);
                 MaxHeapify(largest);
+            }
+        }
+
+        public T Max
+        {
+            get { return _storage[0]; }
+        }
+
+        public T ExtractMax()
+        {
+            if (_usedStorage < 1)
+            {
+                throw new OverflowException("Heap is empty");
+            }
+
+            var max = _storage[0];
+            _storage[0] = _storage[_usedStorage-- - 1];
+
+            MaxHeapify(0);
+
+            return max;
+        }
+
+        public void IncreaseKey(int index, T key)
+        {
+            if (key.CompareTo(_storage[index]) < 0)
+            {
+                throw new ArgumentException("New key is smaller than current key.");
+            }
+
+            _storage[index] = key;
+            while (index > 1 && _storage[Parent(index)].CompareTo(_storage[index]) < 0)
+            {
+                ExchangeNodes(index, Parent(index));
+                index = Parent(index);
             }
         }
 
