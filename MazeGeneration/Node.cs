@@ -16,7 +16,7 @@ namespace MazeGeneration
             return (this.Walls == node.Walls);
         }
     }
-    
+
     public enum NodeWall : ushort
     {
         North = 0x0001,

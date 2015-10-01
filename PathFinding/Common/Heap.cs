@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PathFinding.Common
 {
-    public class MaxHeap<T> where T : IComparable<T>
+    public class MaxHeap<T> where T : IComparable
     {
         private T[] _storage;
         private int _usedStorage = 0;
