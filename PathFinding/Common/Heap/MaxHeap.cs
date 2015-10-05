@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace PathFinding.Common
 {
-    public class MaxHeap<T> where T : IComparable
+    public class MaxHeap<T> : AbstractHeap<T> where T : IComparable
     {
         private T[] _storage;
-        private int _usedStorage = 0;
 
         /// <summary>
         /// Initialises new, empty Heap.
@@ -36,27 +35,22 @@ namespace PathFinding.Common
             get { return _storage; }
         }
 
-        public int Size
-        {
-            get { return _usedStorage; }
-        }
-
-        public int Parent(int index)
+        public override int Parent(int index)
         {
             return (int)Math.Floor((index - 1) / 2.0);
         }
 
-        public int LeftChild(int index)
+        public override int LeftChild(int index)
         {
             return index * 2 + 1;
         }
 
-        public int RightChild(int index)
+        public override int RightChild(int index)
         {
             return (index * 2) + 2;
         }
 
-        public void Insert(T obj)
+        public override void Insert(T obj)
         {
             if (_storage.Length == _usedStorage)
             {
@@ -146,6 +140,20 @@ namespace PathFinding.Common
             var temp = _storage[r];
             _storage[r] = _storage[i];
             _storage[i] = temp;
+        }
+
+        public override void Heapify(int index)
+        {
+            MaxHeapify(index);
+        }
+
+        public override void Empty()
+        {
+            for (int i = 0; i < _storage.Count(); i++)
+            {
+                _storage[i] = default(T);
+            }
+            _usedStorage = 0;
         }
     }
 }

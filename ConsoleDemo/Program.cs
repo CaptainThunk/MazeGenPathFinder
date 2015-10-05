@@ -10,7 +10,7 @@ namespace ConsoleDemo
     class Program
     {
         static Maze maze;
-        static int mazeWidth = 25, mazeHeight = 10;
+        static int mazeWidth = 5, mazeHeight = 5;
         static int offset = 3;
         static char[,] display;
         static Random r;
@@ -18,7 +18,8 @@ namespace ConsoleDemo
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-            r = new Random((int)DateTime.Now.Ticks);
+            //r = new Random((int)DateTime.Now.Ticks);
+            r = new Random(1001);
             maze = new Maze(mazeWidth, mazeHeight);
             display = new char[mazeWidth * offset, mazeHeight * offset];
 

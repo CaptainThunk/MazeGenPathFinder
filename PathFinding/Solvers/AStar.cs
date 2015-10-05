@@ -12,10 +12,10 @@ namespace PathFinding.Solvers
     {
         private class AStarNodePtr : IComparable
         {
-            public int Priority;
+            public float Priority;
             public NodePtr Node;
 
-            public AStarNodePtr(int priority, NodePtr node)
+            public AStarNodePtr(float priority, NodePtr node)
             {
                 Priority = priority;
                 Node = node;
@@ -23,26 +23,92 @@ namespace PathFinding.Solvers
 
             public int CompareTo(object obj)
             {
-                if (obj.GetType() == typeof(AStarNodePtr))
+                if (obj != null && obj.GetType() == typeof(AStarNodePtr))
                 {
                     var otherNodePtr = (AStarNodePtr)obj;
                     return Priority.CompareTo(otherNodePtr.Priority);
                 }
-                return 1; 
+                return 1;
             }
         }
 
         private Maze maze;
-        private MaxHeap<AStarNodePtr> priorityQueue; //the frontier
+        private MinHeap<AStarNodePtr> priorityQueue; //the frontier
+        bool[,] hasVisited;
 
         public AStar(Maze maze)
         {
             this.maze = maze;
+            hasVisited = new bool[maze.Width, maze.Height];
+            InitSolver();
+        }
+
+        private void InitSolver()
+        {
+            for (int y = 0; y < maze.Height; y++)
+            {
+                for (int x = 0; x < maze.Width; x++)
+                {
+                    hasVisited[x, y] = false;
+                }
+            }
         }
 
         public ISet<NodePtr> Solve(NodePtr startPoint, NodePtr endPoint)
         {
-            throw new NotImplementedException();
+            priorityQueue = new MinHeap<AStarNodePtr>(maze.MazeSize);
+            priorityQueue.Insert(new AStarNodePtr(0, startPoint));
+
+            var cameFrom = new Dictionary<NodePtr, NodePtr?>();
+            var runningCost = new Dictionary<NodePtr, float>();
+
+            cameFrom[startPoint] = null;
+            runningCost[startPoint] = 0;
+
+            NodePtr last;
+            while (priorityQueue.Size > 0)
+            {
+                var node = priorityQueue.ExtractMin();
+                last = node.Node;
+                hasVisited[node.Node.x, node.Node.y] = true;
+
+                if (node.Node.Equals(endPoint))
+                {
+                    cameFrom[last] = node.Node;
+                    break;
+                }
+
+                foreach (var next in maze.GetNeighbours(node.Node)
+                                            .Where(n => n.HasValue && !hasVisited[n.Value.x, n.Value.y] && maze.IsPassable(node.Node, n.Value))
+                                            .Cast<NodePtr>()
+                                            .Where(fn => Math.Abs((int)fn.x - node.Node.x + (int)fn.y - node.Node.y) == 1))
+                {
+                    var newCost = runningCost[node.Node] + 1;
+
+
+
+                    if (!runningCost.Keys.Contains(next) || newCost < runningCost[next])
+                    {
+                        runningCost[next] = newCost;
+                        var priority = newCost + GetHeuristic(endPoint, next);
+                        cameFrom[next] = node.Node;
+
+                        if (next.Equals(endPoint))
+                        {
+                            priorityQueue.Empty();
+                            break;
+                        }
+                        else
+                        {
+                            priorityQueue.Insert(new AStarNodePtr(priority, next));
+                        }
+                    }
+                }
+            }
+
+            var results = new HashSet<NodePtr>(cameFrom.Keys);
+            results.Add(startPoint);
+            return results;
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ using PathFinding.Common;
 namespace PathFindingTests
 {
     [TestClass]
-    public class HeapTests
+    public class MaxHeapTests
     {
         private MaxHeap<int> heap;
         private int[] heapData = new int[6] { 5, 4, 6, 1, 0, 2 };

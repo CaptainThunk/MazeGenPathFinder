@@ -39,7 +39,7 @@ namespace PathFindingTests
         }
 
         [TestMethod]
-        public void RecursiveSolverSolvesForGivenMaze()
+        public void AStarSolverSolvesForGivenMaze()
         {
             var actualSolution = new NodePtr[]
             {

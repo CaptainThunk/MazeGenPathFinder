@@ -40,7 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Heap.cs" />
+    <Compile Include="Common\Heap\AbstractHeap.cs" />
+    <Compile Include="Common\Heap\IHeap.cs" />
+    <Compile Include="Common\Heap\MaxHeap.cs" />
+    <Compile Include="Common\Heap\MinHeap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solvers\AStar.cs" />
     <Compile Include="Solvers\ISolver.cs" />
