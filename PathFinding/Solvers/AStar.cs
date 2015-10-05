@@ -106,8 +106,14 @@ namespace PathFinding.Solvers
                 }
             }
 
-            var results = new HashSet<NodePtr>(cameFrom.Keys);
-            results.Add(startPoint);
+            var results = new HashSet<NodePtr>();
+            var resultNode = endPoint;
+            while (!resultNode.Equals(startPoint))
+            {
+                results.Add(resultNode);
+                resultNode = cameFrom[resultNode].Value;
+            }
+
             return results;
         }
 
