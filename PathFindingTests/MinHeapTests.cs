@@ -134,5 +134,58 @@ namespace PathFindingTests
             var right = heap.RightChild(2);
             Assert.AreEqual(6, right);
         }
+
+        [TestMethod]
+        public void InsertMultipleItemsGeneratesCorrectTree()
+        {
+            var expectedHeap = new int[14]
+            {
+                0, 2, 1, 5, 4, 4, 3, 11, 7, 12, 8, 10, 6, 20
+            };
+            Array.Resize(ref expectedHeap, 20);
+            var blankHeap = new MinHeap<int>(10);
+            blankHeap.Insert(10);
+            blankHeap.Insert(11);
+            blankHeap.Insert(1);
+            blankHeap.Insert(2);
+            blankHeap.Insert(12);
+            blankHeap.Insert(0);
+            blankHeap.Insert(3);
+            blankHeap.Insert(7);
+            blankHeap.Insert(5);
+            blankHeap.Insert(8);
+            blankHeap.Insert(4);
+            blankHeap.Insert(4);
+            blankHeap.Insert(6);
+            blankHeap.Insert(20);
+            Assert.AreEqual(14, blankHeap.Size);
+            Assert.AreEqual(0, blankHeap.Min);
+            Assert.AreEqual(20, blankHeap.Data[13]);
+            CollectionAssert.AreEqual(expectedHeap, blankHeap.Data);
+        }
+
+        [TestMethod]
+        public void ExtractMinPopsCorrectly()
+        {
+            var extractionHeap = new MinHeap<int>(new int[14]
+            {
+                0, 2, 1, 5, 4, 4, 3, 11, 7, 12, 8, 10, 6, 20
+            });
+            Assert.AreEqual(0, extractionHeap.ExtractMin());
+            Assert.AreEqual(1, extractionHeap.ExtractMin());
+            Assert.AreEqual(2, extractionHeap.ExtractMin());
+            Assert.AreEqual(3, extractionHeap.ExtractMin());
+            Assert.AreEqual(4, extractionHeap.ExtractMin());
+            Assert.AreEqual(4, extractionHeap.ExtractMin());
+            Assert.AreEqual(5, extractionHeap.ExtractMin());
+            Assert.AreEqual(6, extractionHeap.ExtractMin());
+            Assert.AreEqual(7, extractionHeap.ExtractMin());
+            Assert.AreEqual(8, extractionHeap.ExtractMin());
+            Assert.AreEqual(10, extractionHeap.ExtractMin());
+            Assert.AreEqual(11, extractionHeap.ExtractMin());
+            Assert.AreEqual(12, extractionHeap.ExtractMin());
+            Assert.AreEqual(20, extractionHeap.ExtractMin());
+            Assert.AreEqual(0, extractionHeap.Size);
+        }
     }
 }

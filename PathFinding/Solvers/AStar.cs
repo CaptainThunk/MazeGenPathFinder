@@ -40,7 +40,6 @@ namespace PathFinding.Solvers
         {
             this.maze = maze;
             hasVisited = new bool[maze.Width, maze.Height];
-            InitSolver();
         }
 
         private void InitSolver()
@@ -56,6 +55,7 @@ namespace PathFinding.Solvers
 
         public ISet<NodePtr> Solve(NodePtr startPoint, NodePtr endPoint)
         {
+            InitSolver();
             priorityQueue = new MinHeap<AStarNodePtr>(maze.MazeSize);
             priorityQueue.Insert(new AStarNodePtr(0, startPoint));
 
@@ -84,9 +84,7 @@ namespace PathFinding.Solvers
                                             .Where(fn => Math.Abs((int)fn.x - node.Node.x + (int)fn.y - node.Node.y) == 1))
                 {
                     var newCost = runningCost[node.Node] + 1;
-
-
-
+                    
                     if (!runningCost.Keys.Contains(next) || newCost < runningCost[next])
                     {
                         runningCost[next] = newCost;
@@ -113,6 +111,7 @@ namespace PathFinding.Solvers
                 results.Add(resultNode);
                 resultNode = cameFrom[resultNode].Value;
             }
+            results.Add(startPoint);
 
             return results;
         }
@@ -127,7 +126,7 @@ namespace PathFinding.Solvers
         /// <returns>The manhattan distance between two points</returns>
         private int GetHeuristic(NodePtr a, NodePtr b)
         {
-            return (int)Math.Abs(a.x - b.x) + (int)Math.Abs(a.y - b.y);
+            return (int)Math.Abs((int)a.x - b.x) + (int)Math.Abs((int)a.y - b.y);
         }
     }
 }
